@@ -6,6 +6,8 @@ We trained five DSpark drafters on the same **549,626-trace, 1.210B-token corpus
 
 The completed external evaluations show the same size ordering: **3.260 → 3.831 on BigCodeBench** and **3.389 → 3.988 on LiveCodeBench**. These are acceptance measurements under the same bounded-output policy, not code-correctness scores.
 
+Measured end-to-end output throughput at **concurrency 32** is nearly tied between 4B and 8B: approximately **3,550 tokens/s on OpenCode** and **2,890 tokens/s on the external benchmarks**. The higher acceptance of 8B does not translate into a clear throughput advantage in these runs; see section 8.
+
 ## 0. Target and draft models
 
 The frozen target is **`Qwen/Qwen3-235B-A22B-Thinking-2507`**: a 235B-total/~22B-active MoE model with 94 transformer layers and hidden width 4,096. The drafters are custom-width **dense DSpark** models—not MoE—with a masked-block denoising backbone, Markov correction, and confidence head. All propose **seven draft tokens** per verification round; the target verifies and supplies the correction/bonus token.
@@ -192,7 +194,39 @@ An output audit of the completed **0.5B and 1B runs (4,390 responses)** found re
 
 A fresh scan against all 549,626 training rows found zero exact ID or normalized-problem overlap with either external benchmark. Prompt lengths were checked before generation; maximum rendered lengths were 1,348 tokens for BigCodeBench and 1,909 for LiveCodeBench. This scan did not rule out semantic near-duplicates. Full generations remain in NFS `metrics.json` files. [Final external results](evidence/external-benchmark-summary.json) include aggregate metrics and seven-position prefix-acceptance arrays for every model/benchmark pair.
 
-## 8. Interpretation and limitations
+## 8. Measured end-to-end throughput at concurrency 32
+
+Both client concurrency and server `max-running-requests` were **32** for all three datasets. This is a continuous-batching concurrency cap, not a fixed active batch of exactly 32 at every instant.
+
+The metric is **aggregate generated completion tokens / evaluator wall-clock seconds**, summed across initial generation and answer continuation. It includes prompt/continuation prefill, drafting, target verification, request scheduling, and the initial cache flush. It excludes server/model startup, warmup, tokenizer/prompt preparation before the timed workload, and final result-file serialization. Injected think-closing bridge tokens are not counted as generated output. This is workload-level throughput, not per-request decode tokens/s or a latency percentile.
+
+| DSpark | OpenCode fresh 5K (tok/s) | BigCodeBench (tok/s) | LiveCodeBench (tok/s) |
+|---|---:|---:|---:|
+| 0.5B | 3,274.6 | 2,608.1 | 2,624.0 |
+| 1B | 3,414.2 | 2,727.0 | 2,740.9 |
+| 2B | 3,487.4 | 2,803.3 | 2,818.8 |
+| 4B | **3,555.4** | **2,892.1** | 2,889.6 |
+| 8B | 3,548.7 | 2,877.9 | **2,900.4** |
+
+Corresponding complete-workload wall times, excluding server startup:
+
+| DSpark | OpenCode fresh 5K (s) | BigCodeBench (s) | LiveCodeBench (s) |
+|---|---:|---:|---:|
+| 0.5B | 3,090.16 | 903.04 | 1,077.38 |
+| 1B | 2,964.46 | 861.99 | 1,031.96 |
+| 2B | 2,907.21 | 836.20 | 1,004.18 |
+| 4B | 2,853.34 | 809.13 | 978.69 |
+| 8B | 2,865.42 | 819.34 | 975.63 |
+
+**Interpretation:** 4B has the highest observed throughput on OpenCode and BigCodeBench; 8B leads slightly on LiveCodeBench. The 4B/8B throughput differences are below 0.5% on each dataset. With only one timed run per configuration and slightly different generated token counts, we cannot establish a statistically reliable winner. The observed plateau is an inference-cost/acceptance tradeoff, not proof of training saturation.
+
+**These are measured throughputs, not speedup ratios against the target alone.** This sweep has no matched target-only baseline on the same pod/runtime. Older target-only measurements are not used as denominators. A defensible target-relative speedup requires that matched baseline and preferably repeated timing runs.
+
+The timings include the actual TP8 zero-head-padding overhead described below, so they characterize this serving implementation rather than an optimized native-width implementation. All results also retain the existing bounded-output policy, including the substantial LiveCodeBench truncation rate.
+
+Sources: [OpenCode timing and token counters](evidence/evaluation-audit.json), [external benchmark timing and token counters](evidence/external-benchmark-summary.json).
+
+## 9. Interpretation and limitations
 
 This is a **fixed-data, one-epoch model-size sweep**, not an isoFLOPs study. Bigger models attain lower training loss and longer accepted prefixes, with diminishing gains: going from 4B to 8B adds only **0.089 tokens/verification**. That is not proof of saturation, and longer acceptance is not automatically faster inference.
 
