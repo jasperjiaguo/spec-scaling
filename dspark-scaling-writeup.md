@@ -1,6 +1,10 @@
 # DSpark proportional-scaling experiment
 
-*Final training and fresh-5K evaluation, with completed external coding benchmarks added September 18, 2026.*
+*Updated September 20, 2026: smaller drafters, final WSD stable/cooldown evaluations, and the ten-checkpoint WSD stable validation curve.*
+
+**September 20 update:** [Combined previous/new comparison](../dspark-comparison-20260920/comparison.md)
+adds 0.125B, 0.25B, 4B WSD stable/cooldown, all three datasets, throughput,
+and the ten-point unannealed 4B learning curve. These results are also included directly in [section 10](#10-smaller-drafters-and-4b-wsd-results-september-20-update). Sections 0–9 retain the original five-model cosine campaign and its audits; their loss/quality audits do not automatically extend to the new models.
 
 We trained five DSpark drafters on the same **549,626-trace, 1.210B-token corpus**. All completed one epoch. On the same 5,000 held-out coding prompts, acceptance length increased from **4.226 to 4.854 tokens per verification**, including the bonus token, as draft size increased from 0.530B to 8.303B trainable parameters. Gains diminish with size; these results alone do not establish the fastest model or data saturation.
 
@@ -233,6 +237,83 @@ This is a **fixed-data, one-epoch model-size sweep**, not an isoFLOPs study. Big
 Custom-width evaluation used learned width adapters plus zero attention-head padding for TP8 compatibility: native Q/KV heads 25/5 and 30/6 → 40/8; 50/10 and 65/13 → 80/16; the 2B model stays 40/8. This preserves the intended attention mapping mathematically but adds execution overhead. Therefore these results should **not be treated as a native-cost speedup ranking**. A target-only baseline and matched wall-clock measurements are needed to select the deployment winner.
 
 Other boundaries: no repeated-seed uncertainty or held-out loss curve is included; generated-code correctness is ungraded; and truncation must accompany any quality claim—roughly 5% on the OpenCode holdout, below 1% on BigCodeBench, and 32–34% on LiveCodeBench. The external scores in section 7 are new evaluations of this five-model family, not reused scores from earlier DSpark/Eagle3 experiments.
+
+## 10. Smaller drafters and 4B WSD results — September 20 update
+
+### Models and training branches
+
+The additional runs use the same frozen Qwen3-235B target, 549,626-row / 1.210B-full-template-token corpus, global optimizer batch 8, and final step 68,703 (549,624 rows consumed). The small models extend the same proportional DSpark family; parameter counts exclude frozen target embeddings and output head.
+
+| Model | Trainable parameters | K=L | d_model | d_ff | Q/KV heads | Schedule |
+|---|---:|---:|---:|---:|---:|---|
+| 0.125B | 114,170,625 | 1 | 1,280 | 4,352 | 10 / 2 | Cosine |
+| 0.25B | 202,160,001 | 2 | 1,920 | 6,528 | 15 / 3 | Cosine |
+| 4B stable | 3,926,503,681 | 7 | 6,400 | 21,760 | 50 / 10 | WSD, no decay |
+| 4B cooldown | 3,926,503,681 | 7 | 6,400 | 21,760 | 50 / 10 | WSD + final cooldown |
+
+FFN/width remains 3.4, head dimension 128, and Q/KV ratio 5:1. Integer depth/width constraints matter at the small end: the one-layer model's width/depth ratio is 25% above the reference, while the two-layer model is 6.25% below. Thus proportional scaling is approximate, not an exact aspect-ratio match at every size.
+
+**Both final 4B WSD branches are preserved and evaluated.** The stable branch warms up for 1,030 updates, then holds LR at **1e-4** through step 68,703. A separate cooldown branch forks from stable step **61,833 (90%)**, then decays LR with cosine from 1e-4 toward zero over the same final **6,870 updates**. This is not a second epoch: both endpoints see the same amount of training data. Running both branches adds 10% extra 4B training work. The original stable trajectory and its tenth checkpoints remain intact.
+
+The new campaign used shared target prefill and Mooncake feature transfer, eventually with two prefill nodes feeding one trainer node. This differs from the original cosine execution layout, so old-cosine versus new-WSD results are not a perfectly isolated LR-only ablation.
+
+### Final acceptance results, side by side
+
+All rows use the same full-prompt evaluation contract: fresh OpenCode **5,000**, BigCodeBench **1,140**, LiveCodeBench **1,055**; concurrency **32**, TP8 BF16, seven draft positions, temperature 0.6, top-p 0.95, top-k 20, and the existing two-pass 2,048-initial-output / nominal 1,024-answer budget. Acceptance length **includes the bonus token** and is aggregated across both phases; it is not code correctness.
+
+| Model / schedule | OpenCode fresh 5K τ | BigCodeBench τ | LiveCodeBench τ |
+|---|---:|---:|---:|
+| 0.125B / cosine — new | 2.067 | 1.721 | 1.721 |
+| 0.25B / cosine — new | 3.541 | 2.652 | 2.760 |
+| 0.5B / cosine | 4.226 | 3.260 | 3.389 |
+| 1B / cosine | 4.439 | 3.442 | 3.567 |
+| 2B / cosine | 4.581 | 3.578 | 3.715 |
+| 4B / cosine | 4.765 | 3.770 | 3.890 |
+| 4B / WSD stable — new | 4.640 | 3.713 | 3.850 |
+| 4B / WSD cooldown — new | 4.802 | 3.821 | 3.950 |
+| 8B / cosine | 4.854 | 3.831 | 3.988 |
+
+Cooldown improves over the final stable checkpoint by **+0.162 / +0.107 / +0.100** tokens on OpenCode / BigCodeBench / LiveCodeBench. It exceeds the original 4B cosine result by **+0.037 / +0.050 / +0.060**. These are single-run comparisons without seed-repeat confidence intervals.
+
+### All ten stable WSD checkpoints: fresh-5K validation
+
+Each checkpoint below was evaluated on all **5,000 unique holdout prompts, without cooldown**. Intermediate checkpoints were **not** evaluated on BigCodeBench or LiveCodeBench; those datasets have the final stable and final cooldown results above.
+
+| Training fraction | Step | Traces consumed | OpenCode fresh 5K τ |
+|---|---:|---:|---:|
+| 10% | 6,870 | 54,960 | 3.527 |
+| 20% | 13,741 | 109,928 | 3.926 |
+| 30% | 20,611 | 164,888 | 4.122 |
+| 40% | 27,481 | 219,848 | 4.257 |
+| 50% | 34,352 | 274,816 | 4.351 |
+| 60% | 41,222 | 329,776 | 4.419 |
+| 70% | 48,092 | 384,736 | 4.491 |
+| 80% | 54,962 | 439,696 | 4.547 |
+| 90% | 61,833 | 494,664 | 4.592 |
+| 100% | 68,703 | 549,624 | 4.640 |
+
+Acceptance continues to rise, with diminishing gains: the final 20% adds **0.093** tokens. This is an unannealed learning curve, not the best cooled result at each data budget and not proof of saturation. The final cooldown result **4.802** is a separate branch, not an eleventh point on the stable trajectory.
+
+### Throughput and output-budget caveats for the new runs
+
+| Model / schedule | OpenCode tok/s | BigCodeBench tok/s | LiveCodeBench tok/s | Answer-cap hits: OpenCode / BCB / LCB |
+|---|---:|---:|---:|---|
+| 0.125B / cosine | 1,697.7 | 1,458.7 | 1,413.8 | 245 / 7 / 339 |
+| 0.25B / cosine | 2,794.3 | 2,165.7 | 2,184.7 | 247 / 9 / 338 |
+| 4B / WSD stable | 3,449.2 | 2,840.0 | 2,843.0 | 245 / 6 / 349 |
+| 4B / WSD cooldown | 3,568.4 | 2,925.2 | 2,919.9 | 236 / 7 / 349 |
+
+Cap-hit denominators are 5,000 / 1,140 / 1,055 respectively. All responses, including truncated answers, remain in acceptance results. Roughly one-third of LiveCodeBench answers hit the answer limit; generated code was not execution-graded. The original five-model repetition audit does not establish repetition rates for these additional runs.
+
+Throughputs describe the padded TP8 implementation, **not target-relative speedup or native architecture cost**. Small-model Q/KV heads are padded from 10/2 and 15/3 to 40/8; 4B uses 80/16. No matched target-only baseline or repeated timing runs were added, and evaluations ran at different times/on different pods.
+
+### Validation audit and provenance
+
+All ten retained checkpoint outputs were revalidated: **5,000 unique prompts each and zero summary/raw-metric mismatches**. Cross-node queue locking accidentally duplicated evaluations at steps 6,870, 48,092, and 61,833. Earlier duplicate full outputs may have been overwritten; scalar logs survive. No best-of-repeat selection was applied. The queue was subsequently changed to atomic directory claims and tested across all three nodes.
+
+Sources: [combined comparison and full-precision metrics](../dspark-comparison-20260920/comparison.json), [validated stable curve](../dspark-comparison-20260920/evidence/stable_curve.json), [duplicate-work audit](../dspark-comparison-20260920/evidence/curve_audit.json), and [source paths/checksums](../dspark-comparison-20260920/evidence/source-manifest.json).
+
+NFS run root: `/shared/user/H200/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/`. Final evaluations are under `eval/final-three-datasets/`; the ten-point curve and its audit are under `eval/4b-stable-trajectory-5k/`. Unannealed checkpoints are preserved separately under `checkpoints/4b-wsd/stable/stepN/`.
 
 ## Artifact locations
 
