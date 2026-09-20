@@ -120,3 +120,123 @@ The short checkpoint/resume test passed. For a subsequent interrupted run, stop 
 Use `run_trainers.sh SIZE` on the assigned node. `producer.py --with-cooldown` schedules the shared main stream and final cooldown suffix. The producer and trainers must use the same run-local configuration and metadata authentication token. The token is not included in this source handoff.
 
 This is a new metadata/fan-out training driver using the existing SpecForge architecture, objective, FSDP backend and optimizer, not an upstream production feature. Early steady-state throughput and longer-term LR behavior still need observation. Total run horizon is 68,703 updates per main model; the additional 4B cooldown fork costs 6,870 updates and a corresponding suffix recapture.
+
+## More efficient alternative: two producers, one consumer node — September 20 update
+
+The original topology and launch notes above are preserved as the historical
+design. We subsequently tested and adopted a **more efficient allocation for this
+prefill-bound workload**: two target-prefill nodes feeding one node that hosts all
+three draft trainers. Training and the planned evaluations have now completed;
+the earlier references to “running” and “queued” describe the original launch.
+
+### Why change the allocation?
+
+In the original three-node deployment, one producer supplied two trainer nodes.
+The drafters spent most of their update time waiting for captured target features.
+Consolidating the three trainers onto one eight-H200 node freed another node for
+target prefill, increasing feature supply without adding GPUs. This is a measured
+improvement over the original **three-node** deployment, not a benchmark against
+the proposed four-node topology above.
+
+```text
+Frozen traces -> deterministic order -> coordinator assigns disjoint blocks
+                                         /                  \
+                              Producer A: TP8      Producer B: TP8
+                              feature owner        feature owner
+                                         \                  /
+                                     Mooncake RDMA reads
+                                              |
+                                  One eight-H200 consumer node
+                                  /            |             \
+                           GPUs 0–1        GPUs 2–3        GPUs 4–7
+                           0.125B          0.25B           4B WSD
+```
+
+“One consumer” means **one machine, not one model or optimizer**. There remain
+three independent logical consumers with their own model state, schedule, data
+cursor and acknowledgement stream.
+
+| Role | Pod | Allocation |
+|---|---|---|
+| Producer A, Mooncake master/owner, broker | fa9c5d839b8394bb4ae9-n0-0 | Frozen target TP8 |
+| Producer B, Mooncake owner | f820921679644432bb13-n0-0 | Independent frozen target TP8 replica |
+| All three trainers | fe5cff5295a954629a31-n0-0 | 0.125B: 2 GPUs; 0.25B: 2 GPUs; 4B: 4 GPUs |
+
+### Capture, transfer and training contract
+
+- Both producers run the same frozen Qwen target with BF16, TP8, no EP,
+  **64 concurrent capture requests** and `--max-prefill-tokens 200000` each.
+  These are two replicas, not TP16. The token cap is a scheduler limit, not a
+  guarantee that every scheduled batch contains 200K tokens.
+- The coordinator assigns **disjoint contiguous blocks of up to 64 traces** from
+  the same seed-42 shuffled corpus. A trace is captured by one producer and reused
+  by all three models. Each capture includes the union of eight target taps and
+  the final hidden state, plus input IDs and loss masks; no answers are regenerated.
+- Blocks can finish out of order, but consumers see only the completed contiguous
+  prefix. The corpus, masks, objective and per-model optimizer batch remain
+  unchanged: **eight traces per update**, with per-rank batches **4 / 4 / 2** for
+  the 2 / 2 / 4-rank trainers. Producer concurrency does not change training batch.
+- Mooncake RDMA carries feature tensors into trainer-side host buffers, followed
+  by GPU copies. HTTP carries control metadata; NFS holds durable artifacts.
+  Each logical trainer fetches the union and selects its own taps locally. This
+  is hidden-state sharing, not KV-cache sharing or a zero-copy GPU pipeline.
+  Prefetch of the next update overlaps current computation.
+- Global lookahead is **256 traces** beyond the slowest consumer. Each producer
+  has a **32-GiB owner segment** with a conservative **26-GiB raw-feature reservation
+  budget**, including in-flight work. Reservations use exact sequence lengths;
+  blocks shrink in multiples of eight when necessary. Features are retired only
+  after every active model acknowledges completion of the corresponding update.
+
+### Measured efficiency improvement
+
+The 100-update migration pilot passed. Timing windows excluded initial warmup
+and checkpoint saves; the old and new windows used adjacent, different data,
+so this is descriptive evidence rather than a matched-input controlled benchmark.
+
+| Model | Original seconds/update | Two-producer pilot seconds/update | Original data wait | Pilot data wait |
+|---|---:|---:|---:|---:|
+| 0.125B | 2.225 | 1.311 | 2.048 s | 0.987 s |
+| 0.25B | 2.225 | 1.313 | 2.014 s | 0.929 s |
+| 4B WSD | 2.223 | 0.927 | 1.787 s | 0.108 s |
+
+The small trainers improved by approximately **1.7× at the same total 24-GPU
+allocation**. The 4B pilot initialized later and caught up on already-buffered
+features; its apparent 2.4× improvement must **not** be treated as sustained
+pipeline speedup. See [pilot evidence](DUAL-PREFILL-RESULTS.md).
+
+This allocation is preferable when target-prefill supply is the bottleneck and
+the drafters fit and keep up on the consolidated node. It is not universally
+better for larger or more compute-intensive drafters. Track capture throughput,
+trainer wait/compute/RDMA/H2D time, and buffer occupancy. Block-wide publication
+and the slowest trainer can still limit progress; GPU utilization is not MFU.
+The implemented coordinator supports exactly two producers. A third producer
+would require code/config changes and new capacity, ordering and recovery tests.
+
+### Migration, checkpoints and artifacts
+
+The original step-6,000 checkpoints remain preserved. Rank resharding verified
+bit-exact model weights, FP32 masters, Adam moments/steps and scheduler state;
+the new topology passed a 100-update pilot and continued from step 6,100. Rank
+regrouping changes stochastic RNG draws, so future updates are not claimed to
+be bitwise identical to the old topology.
+
+All main models completed **68,703 updates**. The 4B WSD stable branch and every
+10% checkpoint remain unannealed; a separate cooldown fork starts at step 61,833
+and runs the same final 6,870-update data suffix. Both branches were preserved
+and evaluated. Recovery still uses complete NFS optimizer/RNG checkpoints and
+freshly recaptured deterministic suffixes, not stale Mooncake keys.
+
+Continuation NFS root:
+`/shared/user/H200/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/`
+
+- `scripts/dual_producer.py`: two-owner allocation, ordered publication and retention.
+- `scripts/start_dual_capture.sh`, `dual_env.sh`, `run_dual_trainers.sh`: new launch path;
+  the single-producer launch commands above are historical, not this deployment.
+- `manifests/conversion-readback.json`, `pilot-results.json`, `promotion.json`: migration evidence.
+- `logs/producer-to-68703.log`, `logs/*-stable.jsonl`: producer and trainer measurements.
+- `checkpoints/`: separate stable/cooldown branches and complete training states.
+- `eval/final-three-datasets/`, `eval/4b-stable-trajectory-5k/`: completed validation.
+
+These are recorded training assignments, not live pod-status claims. No workload
+needs restarting to use this documentation; unrelated workloads and keep-alives
+remain outside the training driver's scope.
