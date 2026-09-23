@@ -1,6 +1,6 @@
 # DSpark proportional-scaling experiment
 
-*Updated September 20, 2026: smaller drafters, final WSD stable/cooldown evaluations, and the ten-checkpoint WSD stable validation curve.*
+*Updated September 23, 2026: all 135 synthetic speed points completed and audited (section 11), alongside training-loss provenance for all 18 validated checkpoints.*
 
 **September 20 update:** [Combined previous/new comparison](../dspark-comparison-20260920/comparison.md)
 adds 0.125B, 0.25B, 4B WSD stable/cooldown, all three datasets, throughput,
@@ -257,6 +257,30 @@ FFN/width remains 3.4, head dimension 128, and Q/KV ratio 5:1. Integer depth/wid
 
 The new campaign used shared target prefill and Mooncake feature transfer, eventually with two prefill nodes feeding one trainer node. This differs from the original cosine execution layout, so old-cosine versus new-WSD results are not a perfectly isolated LR-only ablation.
 
+### Latest training method: multiple producers, one consumer node
+
+Generation and training are separate phases. First, distribute disjoint, holdout-excluded prompt shards across available generation nodes; save text traces to NFS, merge, filter and freeze the corpus. Then repurpose nodes for target-feature capture and draft training. Training replays the saved token sequences; it does not regenerate the answers.
+
+The tested three-node allocation is **two eight-H200 prefill producers + one eight-H200 trainer node**. Each producer holds its own frozen target in TP8 BF16, no EP. A coordinator assigns disjoint indexed blocks from the same seed-42 shuffled corpus. Each capture includes the union of eight target-layer taps plus the final hidden state, token IDs, and loss masks, reusable by all three drafters. This is hidden-state sharing, **not target KV-cache sharing**.
+
+| Component | Allocation / setting |
+|---|---|
+| Producer A | Target TP8; up to 64 capture requests; 200,000 prefill-token cap |
+| Producer B | Independent target TP8 replica; same settings |
+| Consumer node, GPUs 0–1 | 0.125B DSpark; 2 FSDP ranks × 4 traces/rank |
+| Consumer node, GPUs 2–3 | 0.25B DSpark; 2 FSDP ranks × 4 traces/rank |
+| Consumer node, GPUs 4–7 | 4B WSD DSpark; 4 FSDP ranks × 2 traces/rank |
+
+**One consumer node still runs three independent logical consumers**, each with its own weights, optimizer, schedule, and acknowledgement cursor. Global optimizer batch remains **8 per model**. The 64-request capture setting and 200K scheduler token limit neither increase training batch nor guarantee that every prefill scheduling batch contains 200K tokens.
+
+Mooncake RDMA transfers feature payloads from producer owners into trainer-side host buffers, followed by GPU copies; HTTP carries control metadata and NFS preserves durable data/checkpoints. Each trainer fetches the union and selects its own required taps. The next fetch overlaps current computation. Producers can finish blocks out of order, but consumers see the original contiguous sequence order. Payloads are retired only after all active logical consumers acknowledge the corresponding optimizer update. Global lookahead is 256 traces; each producer has a 32-GiB owner segment and a conservative 26-GiB raw-feature budget including in-flight captures. These bounds provide backpressure instead of unbounded buffering.
+
+This allocation was selected because target prefill was starving the trainers. In the reviewed pilot, small-model update time improved from about **2.225 to 1.31 seconds (~1.7×)**; those measurements used adjacent, different data windows, not a matched-input benchmark. The 4B pilot consumed an existing buffer while catching up, so its faster short-window rate is not an aggregate steady-state speedup. Monitor capture throughput, data-wait, RDMA, host-to-device and compute times, and buffer occupancy—not GPU-utilization percentages alone. Block-wide publication and the slowest logical consumer can still limit progress.
+
+The migration preserved the step-6,000 source checkpoints and verified exact model/FP32-master/Adam-state readback after rank resharding, then passed a 100-update pilot before continuing from step 6,100. Rank regrouping changes stochastic RNG draws, so the continued trajectory is not bitwise identical. Recovery uses complete NFS checkpoints and recaptures the deterministic suffix with fresh feature keys; transient Mooncake objects are not durable checkpoints. Stable WSD tenth checkpoints and the separate cooldown branch remain preserved.
+
+The driver currently supports exactly **two producers** with explicit addresses and GPU assignments; adding a third producer is a prospective extension, not a validated automatic option. The detailed training-method README is preserved at `/shared/user/H200/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/scripts/README.md` alongside the coordinator, launchers, and ownership tests.
+
 ### Final acceptance results, side by side
 
 All rows use the same full-prompt evaluation contract: fresh OpenCode **5,000**, BigCodeBench **1,140**, LiveCodeBench **1,055**; concurrency **32**, TP8 BF16, seven draft positions, temperature 0.6, top-p 0.95, top-k 20, and the existing two-pass 2,048-initial-output / nominal 1,024-answer budget. Acceptance length **includes the bonus token** and is aggregated across both phases; it is not code correctness.
@@ -294,6 +318,39 @@ Each checkpoint below was evaluated on all **5,000 unique holdout prompts, witho
 
 Acceptance continues to rise, with diminishing gains: the final 20% adds **0.093** tokens. This is an unannealed learning curve, not the best cooled result at each data budget and not proof of saturation. The final cooldown result **4.802** is a separate branch, not an eleventh point on the stable trajectory.
 
+### Training loss for every validated checkpoint
+
+This joins **all 18 distinct trained checkpoints validated in this proportional-scaling campaign** to their preserved training logs: seven cosine endpoints, ten unannealed 4B WSD checkpoints, and the separate final cooldown. Older DSpark/EAGLE campaigns with different architectures/data are not silently mixed into this table. Multiple validation datasets for one checkpoint do not count as multiple trained checkpoints.
+
+“Last logged loss” is the latest recorded minibatch loss **at or before** the checkpoint, with its actual log step shown. The exact loss at checkpoint step 68,703 was not logged; the last observation is at 68,700. Likewise, most WSD tenth checkpoints fall between logging steps. We do not interpolate or rename those observations as exact checkpoint-step losses.
+
+The sampled mean uses the same definition as section 4: the 50 minibatch losses logged every 20 steps in `(checkpoint step − 1,000, checkpoint step]`. It is **not** an average over all 1,000 updates and is **not** the newer logger's short moving-window field. These are the composite training-objective losses, not validation losses, perplexities, or code-correctness scores. τ is independently measured on the fresh 5K and includes the bonus token.
+
+| Model / schedule | Checkpoint step | Last loss-log step | Last logged loss | Prior 1K-step sampled mean | OpenCode 5K τ |
+|---|---:|---:|---:|---:|---:|
+| 0.125B / Cosine | 68,703 | 68,700 | 1.850773 | 1.725719 | 2.067 |
+| 0.25B / Cosine | 68,703 | 68,700 | 1.157785 | 0.998692 | 3.541 |
+| 0.5B / Cosine | 68,703 | 68,700 | 0.887008 | 0.776183 | 4.226 |
+| 1B / Cosine | 68,703 | 68,700 | 0.814016 | 0.716737 | 4.439 |
+| 2B / Cosine | 68,703 | 68,700 | 0.770416 | 0.674605 | 4.581 |
+| 4B / Cosine | 68,703 | 68,700 | 0.714708 | 0.629579 | 4.765 |
+| 8B / Cosine | 68,703 | 68,700 | 0.688993 | 0.607918 | 4.854 |
+| 4B / WSD stable | 6,870 | 6,860 | 1.052146 | 1.078764 | 3.527 |
+| 4B / WSD stable | 13,741 | 13,740 | 1.027225 | 0.910579 | 3.926 |
+| 4B / WSD stable | 20,611 | 20,600 | 0.935804 | 0.875960 | 4.122 |
+| 4B / WSD stable | 27,481 | 27,480 | 0.813257 | 0.798092 | 4.257 |
+| 4B / WSD stable | 34,352 | 34,340 | 0.880936 | 0.764404 | 4.351 |
+| 4B / WSD stable | 41,222 | 41,220 | 0.676751 | 0.758771 | 4.419 |
+| 4B / WSD stable | 48,092 | 48,080 | 0.740051 | 0.709577 | 4.491 |
+| 4B / WSD stable | 54,962 | 54,960 | 0.628779 | 0.740066 | 4.547 |
+| 4B / WSD stable | 61,833 | 61,820 | 0.780495 | 0.698239 | 4.592 |
+| 4B / WSD stable | 68,703 | 68,700 | 0.752375 | 0.668709 | 4.640 |
+| 4B / WSD cooldown | 68,703 | 68,700 | 0.701560 | 0.620593 | 4.802 |
+
+The 16B and 32B configurations used in the synthetic speed sweep are **untrained**, so their training losses are **N/A**, not zero. Synthetic forced-acceptance measurements are not validation of their model quality.
+
+Preserved evidence: [full-precision JSON with checkpoint paths, LR, external validation results and source checksums](evidence/validated-checkpoint-losses.json), [CSV](evidence/validated-checkpoint-losses.csv), and [reproducible collector](build_validated_checkpoint_losses.py). Original cosine histories use the audited resume stitching in section 4. The first WSD window also needs the original pre-migration log through step 6,000; the continued log supplies the suffix after 6,000. Duplicate logged steps are resolved in file order to the latest continued record and counted in the evidence. Every reported window contains exactly 50 samples; intermediate WSD external-validation fields remain null because those evaluations were not run.
+
 ### Throughput and output-budget caveats for the new runs
 
 | Model / schedule | OpenCode tok/s | BigCodeBench tok/s | LiveCodeBench tok/s | Answer-cap hits: OpenCode / BCB / LCB |
@@ -314,6 +371,93 @@ All ten retained checkpoint outputs were revalidated: **5,000 unique prompts eac
 Sources: [combined comparison and full-precision metrics](../dspark-comparison-20260920/comparison.json), [validated stable curve](../dspark-comparison-20260920/evidence/stable_curve.json), [duplicate-work audit](../dspark-comparison-20260920/evidence/curve_audit.json), and [source paths/checksums](../dspark-comparison-20260920/evidence/source-manifest.json).
 
 NFS run root: `/shared/user/H200/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/`. Final evaluations are under `eval/final-three-datasets/`; the ten-point curve and its audit are under `eval/4b-stable-trajectory-5k/`. Unannealed checkpoints are preserved separately under `checkpoints/4b-wsd/stable/stepN/`.
+
+## 11. Synthetic acceptance / speed sweep — September 23, 2026 snapshot
+
+**Complete: 135/135 points.** All nine models have all 15 acceptance points. The original workers for 16B and 0.125B stopped at a model transition with `GPU occupied; refusing to collide`. Recovery added bounded CUDA-release waiting and owned-child cleanup before the next server launch. The recovery runs preserve the original workload, baselines and completed points. All required points are now present and audited.
+
+### Workload and interpretation
+
+Target: **Qwen3-235B-A22B-Thinking-2507**, BF16 TP8, no EP, eight H200s per server. Each point issues **256 requests**, concurrency/server maximum **32**, exactly **one raw input token** (`[100]`) and **8,192 output tokens per request**. No chat template, reasoning cap, stop strings or EOS termination; temperature 0.6, top-p 0.95, top-k 20. Radix cache is disabled; context length 16,384, chunked prefill 8,192, KV token cap 270,336, decode CUDA graph maximum batch 32. The runner excludes loading and explicit warmup from timed request wall-clock. It measures all 2,097,152 output tokens divided by elapsed wall time; speedup divides that throughput by the **same-pod target-only baseline**.
+
+Draft block size is 7; τ includes the bonus token. All 15 setpoints from 1.50 through 5.00 use 0.25 increments. The isolated engine patch overrides accepted-prefix length with a deterministic, balanced floor/ceiling mixture rotated across rows and steps, while retaining real draft and target forward computation. Static verify-all is used. This is not a real quality/acceptance test and does not reproduce an arbitrary acceptance distribution. Forced draft tokens also change future context and target MoE routing. Therefore these are synthetic workload-specific speedups, not code-quality or real coding-workload speed predictions.
+
+The 16B/32B configurations are untrained random-weight drafters, not trained checkpoints. Existing trained exports use zero-padded attention heads for TP8, which adds compute. Native parameter labels below exclude frozen shared target embeddings/output head; executed padded dimensions are recorded explicitly. No repeated-run error bars or post-sweep target-only drift measurements are available; small cross-size differences should not be treated as significant.
+
+### Matched target-only baselines
+
+| Worker | Output tok/s | Wall seconds | Used for completed models |
+|---|---:|---:|---|
+| A | 1,638.07 | 1,280.26 | 16B |
+| B | 1,654.29 | 1,267.70 | 0.125B, 0.5B, 2B, 32B |
+| C | 1,635.28 | 1,282.44 | 0.25B, 1B, 4B, 8B |
+
+### Draft configurations
+
+| Nominal | Native parameters | Padded parameters | K=L | d_model | d_ff | Native Q/KV heads | Executed Q/KV heads | Weights |
+|---|---:|---:|---:|---:|---:|---|---|---|
+| 0.125B | 114,170,625 | 125,967,105 | 1 | 1,280 | 4,352 | 10/2 | 40/8 | Trained cosine final |
+| 0.25B | 202,160,001 | 231,651,201 | 2 | 1,920 | 6,528 | 15/3 | 40/8 | Trained cosine final |
+| 0.5B | 530,429,057 | 574,665,857 | 3 | 3,200 | 10,880 | 25/5 | 40/8 | Trained cosine final |
+| 1B | 915,384,833 | 962,570,753 | 4 | 3,840 | 13,056 | 30/6 | 40/8 | Trained cosine final |
+| 2B | 1,876,167,169 | 1,876,167,169 | 5 | 5,120 | 17,408 | 40/8 | 40/8 | Trained cosine final |
+| 4B | 3,926,503,681 | 4,339,380,481 | 7 | 6,400 | 21,760 | 50/10 | 80/16 | Trained cosine final |
+| 8B | 8,302,654,593 | 8,647,701,633 | 9 | 8,320 | 28,288 | 65/13 | 80/16 | Trained cosine final |
+| 16B | 15,527,992,449 | 16,697,810,049 | 10 | 10,880 | 36,992 | 85/17 | 120/24 | Untrained random |
+| 32B | 32,822,782,593 | 33,689,823,873 | 14 | 13,440 | 45,696 | 105/21 | 120/24 | Untrained random |
+
+### Output throughput (tokens/s)
+
+“—” means missing, not zero.
+
+| τ incl. bonus | 0.125B | 0.25B | 0.5B | 1B | 2B | 4B | 8B | 16B | 32B |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.50 | 1,264.0 | 1,405.1 | 1,345.2 | 1,305.8 | 1,320.5 | 1,308.4 | 1,268.2 | 1,141.6 | 1,074.4 |
+| 1.75 | 1,478.5 | 1,580.8 | 1,569.9 | 1,654.6 | 1,532.9 | 1,534.7 | 1,501.3 | 1,367.9 | 1,290.8 |
+| 2.00 | 1,786.4 | 1,820.1 | 1,960.3 | 1,802.2 | 1,885.0 | 1,813.7 | 1,834.8 | 1,676.1 | 1,501.7 |
+| 2.25 | 2,034.1 | 2,047.9 | 2,042.0 | 2,019.5 | 2,012.9 | 1,967.9 | 2,035.0 | 1,892.0 | 1,779.3 |
+| 2.50 | 2,156.5 | 2,261.3 | 2,300.2 | 2,241.2 | 2,218.0 | 2,219.0 | 2,240.9 | 2,106.3 | 1,873.9 |
+| 2.75 | 2,507.6 | 2,617.0 | 2,613.7 | 2,596.1 | 2,419.7 | 2,403.4 | 2,432.6 | 2,196.2 | 2,064.4 |
+| 3.00 | 2,573.1 | 2,817.7 | 2,878.0 | 2,838.6 | 2,653.0 | 2,742.2 | 2,542.1 | 2,388.6 | 2,381.8 |
+| 3.25 | 2,972.3 | 2,933.0 | 2,958.3 | 3,053.4 | 3,062.2 | 2,841.7 | 2,907.3 | 2,587.8 | 2,582.0 |
+| 3.50 | 3,201.4 | 3,157.6 | 3,342.7 | 3,323.5 | 3,291.5 | 3,202.3 | 3,134.3 | 2,958.3 | 2,651.7 |
+| 3.75 | 3,425.9 | 3,393.5 | 3,425.8 | 3,365.3 | 3,369.5 | 3,218.8 | 3,339.2 | 3,171.6 | 2,981.7 |
+| 4.00 | 3,458.4 | 3,756.8 | 3,815.7 | 3,797.3 | 3,769.7 | 3,521.3 | 3,461.0 | 3,383.7 | 3,183.1 |
+| 4.25 | 3,884.1 | 4,035.6 | 4,058.2 | 3,836.7 | 4,011.6 | 3,702.2 | 3,553.2 | 3,598.3 | 3,380.9 |
+| 4.50 | 4,119.2 | 4,063.7 | 4,310.1 | 4,239.0 | 4,239.6 | 3,849.7 | 3,829.8 | 3,808.3 | 3,580.4 |
+| 4.75 | 4,358.3 | 4,251.3 | 4,340.8 | 4,476.8 | 4,228.4 | 4,311.9 | 4,221.9 | 4,023.5 | 3,601.0 |
+| 5.00 | 4,595.6 | 4,525.2 | 4,734.6 | 4,691.2 | 4,470.1 | 4,542.8 | 4,420.1 | 4,234.1 | 3,795.9 |
+
+### Speedup versus matched target-only
+
+“—” means missing, not zero.
+
+| τ incl. bonus | 0.125B | 0.25B | 0.5B | 1B | 2B | 4B | 8B | 16B | 32B |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1.50 | 0.764× | 0.859× | 0.813× | 0.799× | 0.798× | 0.800× | 0.776× | 0.697× | 0.649× |
+| 1.75 | 0.894× | 0.967× | 0.949× | 1.012× | 0.927× | 0.939× | 0.918× | 0.835× | 0.780× |
+| 2.00 | 1.080× | 1.113× | 1.185× | 1.102× | 1.139× | 1.109× | 1.122× | 1.023× | 0.908× |
+| 2.25 | 1.230× | 1.252× | 1.234× | 1.235× | 1.217× | 1.203× | 1.244× | 1.155× | 1.076× |
+| 2.50 | 1.304× | 1.383× | 1.390× | 1.371× | 1.341× | 1.357× | 1.370× | 1.286× | 1.133× |
+| 2.75 | 1.516× | 1.600× | 1.580× | 1.588× | 1.463× | 1.470× | 1.488× | 1.341× | 1.248× |
+| 3.00 | 1.555× | 1.723× | 1.740× | 1.736× | 1.604× | 1.677× | 1.555× | 1.458× | 1.440× |
+| 3.25 | 1.797× | 1.794× | 1.788× | 1.867× | 1.851× | 1.738× | 1.778× | 1.580× | 1.561× |
+| 3.50 | 1.935× | 1.931× | 2.021× | 2.032× | 1.990× | 1.958× | 1.917× | 1.806× | 1.603× |
+| 3.75 | 2.071× | 2.075× | 2.071× | 2.058× | 2.037× | 1.968× | 2.042× | 1.936× | 1.802× |
+| 4.00 | 2.091× | 2.297× | 2.307× | 2.322× | 2.279× | 2.153× | 2.116× | 2.066× | 1.924× |
+| 4.25 | 2.348× | 2.468× | 2.453× | 2.346× | 2.425× | 2.264× | 2.173× | 2.197× | 2.044× |
+| 4.50 | 2.490× | 2.485× | 2.605× | 2.592× | 2.563× | 2.354× | 2.342× | 2.325× | 2.164× |
+| 4.75 | 2.635× | 2.600× | 2.624× | 2.738× | 2.556× | 2.637× | 2.582× | 2.456× | 2.177× |
+| 5.00 | 2.778× | 2.767× | 2.862× | 2.869× | 2.702× | 2.778× | 2.703× | 2.585× | 2.295× |
+
+### Audit and preserved artifacts
+
+All 135 completed summaries passed workload-shape checks and recomputation of throughput, same-pod speedup, and histogram-weighted acceptance. Maximum absolute difference between requested and observed τ is **0.00002381**. The benchmark client saved per-request exact-length checks and the raw metadata; the report audit checks the saved summaries and histograms.
+
+- [Full-precision results and audit](evidence/synthetic-speed-20260922/summary-audit.json), [CSV](evidence/synthetic-speed-20260922/results.csv), and [report builder](build_synthetic_speed_report.py).
+- Per-point metrics, server commands, completion/failure markers and baseline summaries are mirrored under `evidence/synthetic-speed-20260922/`.
+- Original per-request records, full server logs and five-minute recorder snapshots remain under `/shared/user/H200/specforge/dspark-synthetic-speed-20260922/`; exact raw paths are in the audit JSON.
+- Training-loss data for all 18 validated trained checkpoints are preserved in [section 10](#training-loss-for-every-validated-checkpoint) and [full-precision evidence](evidence/validated-checkpoint-losses.json). Untrained 16B/32B training losses remain N/A.
 
 ## Artifact locations
 
