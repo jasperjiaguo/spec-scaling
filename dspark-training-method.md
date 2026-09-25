@@ -106,7 +106,7 @@ All keep-alives remain running. lva1 was not queried or changed.
 - `logs/{0p125b,0p25b,4b-wsd}-{pilot,main}.log`: process logs.
 - `logs/{0p125b,0p25b,4b-wsd}-stable.jsonl`: step/loss/LR and wait/compute/transfer windows.
 - `logs/producer-main.log`: capture batch timings and independent acknowledgement cursors.
-- `logs/watch-5min.jsonl`: on-pod five-minute status snapshots. This is a recorder, not automatic chat reporting or a crash-recovery agent.
+- `logs/watch-5min.jsonl`: on-pod five-minute status snapshots. This is a recorder, not an automatic notification or crash-recovery service.
 - `checkpoints/{size}/stable/step{N}/`: complete training states, with `COMPLETED.json` written only after all ranks have saved.
 - `checkpoints/4b-wsd/cooldown/`: separately queued final cooldown branch.
 - `scripts/`: launch/runtime/test source snapshot.
