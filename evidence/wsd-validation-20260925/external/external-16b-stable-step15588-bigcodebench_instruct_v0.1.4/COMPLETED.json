@@ -1,0 +1,9 @@
+{
+  "time": 1790381346.7125485,
+  "worker": "c",
+  "step": 15588,
+  "size": "16b",
+  "rows": 1140,
+  "dataset": "bigcodebench_instruct_v0.1.4",
+  "campaign": "resume-20260925"
+}

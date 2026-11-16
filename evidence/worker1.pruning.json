@@ -1,0 +1,52 @@
+{
+  "status": "complete",
+  "policy": {
+    "prompt_duplicate": "normalized prompt duplicates against existing traces or earlier new rows",
+    "duplicate": "normalized reasoning duplicates against existing traces or earlier new rows",
+    "internal": [
+      "20-word shingle repeated at least 8 times",
+      "forced-stop trace with a 20-word shingle repeated at least 5 times",
+      "normalized long sentence or paragraph repeated at least 3 times"
+    ]
+  },
+  "existing_trace_rows_indexed": 373237,
+  "raw_rows": 180000,
+  "kept_rows": 176389,
+  "removed_rows": 3611,
+  "removed_rate_pct": 2.006111111111111,
+  "reason_counts": {
+    "normalized_reasoning_duplicate": 256,
+    "long_sentence_repeated_3plus": 2681,
+    "forced_trace_word_20gram_repeated_5plus": 858,
+    "long_paragraph_repeated_3plus": 542,
+    "word_20gram_repeated_8plus": 122
+  },
+  "implementation": {
+    "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/scripts/prune_repetitive_traces.py",
+    "sha256": "941943338be12c545ea7bbd9bdcc6730e966f4d54f479861f47479f78cb5acde"
+  },
+  "existing_traces": [
+    {
+      "path": "/workspace/specforge/qwen3-235b-thinking-dspark-k5l5-200k-20260903/data/opencode_train_196816.qwen3-thinking-budget2k.cleaned.jsonl",
+      "sha256": "fa16c188028e1d570d6eba86cb916125b6d0e41a5b62637a8219ea85afb29798"
+    },
+    {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker0.cleaned.jsonl",
+      "sha256": "e4719d9c74d424449b94413d9f99f314b197064bf09b9e7b7bfadc64c00ebbbd"
+    }
+  ],
+  "files": {
+    "input": {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker1.raw.jsonl",
+      "sha256": "fa6d04eba7efe11f5ea5d18fb66ff6158379a69440d7f76e7368d73f220e87ef"
+    },
+    "output": {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker1.cleaned.jsonl",
+      "sha256": "4a7ed077a105d2ed2beeec4cf7b6500c477f4e4e487e8b17b1a5c25064901e5c"
+    },
+    "removed": {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker1.removed.jsonl",
+      "sha256": "4b5743a1459096aee5f82373fcacd6749a6b9ea40b84eda88b05db5eee1467e9"
+    }
+  }
+}

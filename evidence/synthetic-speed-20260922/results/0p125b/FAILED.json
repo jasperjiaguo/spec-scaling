@@ -1,0 +1,5 @@
+{
+  "error": "AssertionError('GPU occupied; refusing to collide')",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/specforge/dspark-synthetic-speed-20260922/scripts/run.py\", line 158, in main\n    start_server(dest,model)\n  File \"/workspace/specforge/dspark-synthetic-speed-20260922/scripts/run.py\", line 69, in start_server\n    assert not any(line.strip().isdigit() for line in running.splitlines()), 'GPU occupied; refusing to collide'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: GPU occupied; refusing to collide\n",
+  "worker": "b"
+}

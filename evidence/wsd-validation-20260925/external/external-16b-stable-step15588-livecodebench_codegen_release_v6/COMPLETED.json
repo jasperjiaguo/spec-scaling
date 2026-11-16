@@ -1,0 +1,9 @@
+{
+  "time": 1790380321.13291,
+  "worker": "c",
+  "step": 15588,
+  "size": "16b",
+  "rows": 1055,
+  "dataset": "livecodebench_codegen_release_v6",
+  "campaign": "resume-20260925"
+}

@@ -1,0 +1,24 @@
+{
+  "source_nfs_directory": "/workspace/specforge/dspark-wsd-1b-16b-20260923/eval/holdout-curve-20260925/workers/c/baseline",
+  "published_at": "2026-09-25T20:49:11.836911+00:00",
+  "rows": 5000,
+  "raw_metrics_sha256": "6d946975fea9c9b8895a669d931ce3f7cd219f671ea4e864332518d14e6bd410",
+  "files": {
+    "metrics-summary.json": {
+      "bytes": 1400,
+      "sha256": "c90876577eebfe2f5811dd7e3586413e1b123dffda398ad49d169efbb220314f"
+    },
+    "metrics-command.json": {
+      "bytes": 934,
+      "sha256": "270e7e99bfd23a0bc268361a3ec6dceb4785bf6cc4bae6a26ce2b04172001883"
+    },
+    "metrics.json.gz": {
+      "bytes": 11618229,
+      "sha256": "648f6e6708963efcf82f7c9deb75a739c6fdb76a1344eefc3a7c388669b0a8d9"
+    },
+    "server-command.json": {
+      "bytes": 606,
+      "sha256": "b116d162ba0dcaedd3343aaa6a557319477f69bc590b2f256714b7a6a447b814"
+    }
+  }
+}

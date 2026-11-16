@@ -1,0 +1,29 @@
+{
+  "step": 13012,
+  "world_size": 4,
+  "branch": "stable",
+  "schedule": "constant",
+  "unannealed": true,
+  "run_config": {
+    "size": "16b",
+    "branch": "stable",
+    "schedule": "constant",
+    "optimizer_scheduler": "constant",
+    "peak_lr": 6e-05,
+    "warmup_steps": 1030,
+    "total_steps": 15588,
+    "world_size": 4,
+    "batch_per_rank": 16,
+    "global_batch": 64,
+    "micro_batch_per_rank": 2,
+    "accumulation_steps": 8,
+    "bs8_prefix_updates": 8000,
+    "training_rows": 549624,
+    "next_data_row": 384768,
+    "anchors": 512,
+    "objective_chunk_blocks": 64,
+    "seed": 42,
+    "fsdp": "FULL_SHARD",
+    "host": "pod-06"
+  }
+}

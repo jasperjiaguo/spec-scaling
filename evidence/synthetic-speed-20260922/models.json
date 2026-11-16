@@ -1,0 +1,173 @@
+[
+  {
+    "name": "0p125b",
+    "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/eval/final-three-datasets/exports/0p125b",
+    "dummy": false,
+    "K": 1,
+    "L": 1,
+    "d_model": 1280,
+    "d_ff": 4352,
+    "native_parameters": 114170625,
+    "padded_parameters": 125967105,
+    "native_heads": [
+      10,
+      2
+    ],
+    "executed_heads": [
+      40,
+      8
+    ]
+  },
+  {
+    "name": "0p25b",
+    "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/eval/final-three-datasets/exports/0p25b",
+    "dummy": false,
+    "K": 2,
+    "L": 2,
+    "d_model": 1920,
+    "d_ff": 6528,
+    "native_parameters": 202160001,
+    "padded_parameters": 231651201,
+    "native_heads": [
+      15,
+      3
+    ],
+    "executed_heads": [
+      40,
+      8
+    ]
+  },
+  {
+    "name": "0p5b",
+    "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/0p5b",
+    "dummy": false,
+    "K": 3,
+    "L": 3,
+    "d_model": 3200,
+    "d_ff": 10880,
+    "native_parameters": 530429057,
+    "padded_parameters": 574665857,
+    "native_heads": [
+      25,
+      5
+    ],
+    "executed_heads": [
+      40,
+      8
+    ]
+  },
+  {
+    "name": "1b",
+    "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/1b",
+    "dummy": false,
+    "K": 4,
+    "L": 4,
+    "d_model": 3840,
+    "d_ff": 13056,
+    "native_parameters": 915384833,
+    "padded_parameters": 962570753,
+    "native_heads": [
+      30,
+      6
+    ],
+    "executed_heads": [
+      40,
+      8
+    ]
+  },
+  {
+    "name": "2b",
+    "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/2b",
+    "dummy": false,
+    "K": 5,
+    "L": 5,
+    "d_model": 5120,
+    "d_ff": 17408,
+    "native_parameters": 1876167169,
+    "padded_parameters": 1876167169,
+    "native_heads": [
+      40,
+      8
+    ],
+    "executed_heads": [
+      40,
+      8
+    ]
+  },
+  {
+    "name": "4b",
+    "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/4b",
+    "dummy": false,
+    "K": 7,
+    "L": 7,
+    "d_model": 6400,
+    "d_ff": 21760,
+    "native_parameters": 3926503681,
+    "padded_parameters": 4339380481,
+    "native_heads": [
+      50,
+      10
+    ],
+    "executed_heads": [
+      80,
+      16
+    ]
+  },
+  {
+    "name": "8b",
+    "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/8b",
+    "dummy": false,
+    "K": 9,
+    "L": 9,
+    "d_model": 8320,
+    "d_ff": 28288,
+    "native_parameters": 8302654593,
+    "padded_parameters": 8647701633,
+    "native_heads": [
+      65,
+      13
+    ],
+    "executed_heads": [
+      80,
+      16
+    ]
+  },
+  {
+    "name": "16b",
+    "path": "/workspace/specforge/dspark-synthetic-speed-20260922/configs/16b",
+    "dummy": true,
+    "K": 10,
+    "L": 10,
+    "d_model": 10880,
+    "d_ff": 36992,
+    "native_parameters": 15527992449,
+    "padded_parameters": 16697810049,
+    "native_heads": [
+      85,
+      17
+    ],
+    "executed_heads": [
+      120,
+      24
+    ]
+  },
+  {
+    "name": "32b",
+    "path": "/workspace/specforge/dspark-synthetic-speed-20260922/configs/32b",
+    "dummy": true,
+    "K": 14,
+    "L": 14,
+    "d_model": 13440,
+    "d_ff": 45696,
+    "native_parameters": 32822782593,
+    "padded_parameters": 33689823873,
+    "native_heads": [
+      105,
+      21
+    ],
+    "executed_heads": [
+      120,
+      24
+    ]
+  }
+]

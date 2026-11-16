@@ -1,0 +1,11 @@
+{
+  "stage": "complete_assigned_queue",
+  "pid": 34116,
+  "worker": "c",
+  "pod": "pod-06",
+  "time": "2026-09-22T19:35:51.739875+00:00",
+  "model": "0p25b",
+  "log": "/workspace/specforge/dspark-synthetic-speed-20260922/results/0p25b/server.log",
+  "tau": 4.0,
+  "completed_points": 14
+}

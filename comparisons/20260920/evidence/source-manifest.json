@@ -1,0 +1,22 @@
+{
+  "previous_holdout": {
+    "path": "/home/user/codex/specforge-handoff/scaling-eval-20260916/summary-all5-20260917.json",
+    "sha256": "f4f15b1f97197cb1cc9a5de0dfa4b143ccf6c7bf2c009dd6d7ac866cf6a34d8d"
+  },
+  "previous_external": {
+    "path": "/home/user/codex/specforge-handoff/reports/dspark-scaling-20260917/evidence/external-benchmark-summary.json",
+    "sha256": "b14229dc001af4e855832395befc56d71166f95dd06b59038904a5de759aabc9"
+  },
+  "new_final": {
+    "path": "/home/user/codex/specforge-handoff/reports/dspark-comparison-20260920/evidence/new-final-summary.json",
+    "sha256": "3a485c0340546b2d365a1f66947c7343a1397c10b0548ab5f6939331cc297db3"
+  },
+  "stable_curve": {
+    "path": "/home/user/codex/specforge-handoff/shared-prefill-training-20260918/evidence/stable-curve-audit-20260920/validated-summary.json",
+    "sha256": "da8574c13b14bb1c960050419d5a775d84acaddb225c43b1fe2eb5ebe4c26dea"
+  },
+  "curve_audit": {
+    "path": "/home/user/codex/specforge-handoff/shared-prefill-training-20260918/evidence/stable-curve-audit-20260920/audit.json",
+    "sha256": "7fa172d0b028a229e6c03c9687f58edf56888f4bbd04c9e0a045088e8da00e54"
+  }
+}

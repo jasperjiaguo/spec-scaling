@@ -1,0 +1,9 @@
+{
+  "time": 1790401115.9565787,
+  "worker": "c",
+  "step": 8718,
+  "size": "16b",
+  "rows": 5000,
+  "dataset": "opencode_fresh5k_scaling_20260910",
+  "campaign": "resume-20260925"
+}

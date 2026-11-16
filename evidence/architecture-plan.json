@@ -1,0 +1,127 @@
+{
+  "reference": "deepseek-ai/dspark_qwen3_14b_block7 config revision 83207b416acf99f41c2184648923632fccea6dd0",
+  "reference_dimensions": {
+    "K": 5,
+    "L": 5,
+    "d_model": 5120,
+    "d_ff": 17408
+  },
+  "base_code_commit": "7d5a69386f9cef8240094b96a7b93c1401e889b8",
+  "parameter_convention": "Trainable drafter-specific parameters, including adapters and Markov/confidence heads; excludes shared frozen target embedding/lm_head.",
+  "data_sha256": "70048dfd036935a9e0567fd1354142bb81b739f2b427c7201064afcf7ebaf0c6",
+  "training_rows": 549626,
+  "full_template_tokens": 1210189978,
+  "global_batch_size": 8,
+  "expected_optimizer_steps": 68703,
+  "incomplete_last_global_batch_rows": 2,
+  "models": [
+    {
+      "name": "0p5b",
+      "K": 3,
+      "L": 3,
+      "d_model": 3200,
+      "d_ff": 10880,
+      "query_heads": 25,
+      "kv_heads": 5,
+      "target_layer_ids": [
+        1,
+        46,
+        92
+      ],
+      "trainable_parameters": 530429057,
+      "shared_frozen_target_embedding_head_parameters": 1244659712,
+      "d_model_per_layer": 1066.6666666666667,
+      "ffn_ratio": 3.4,
+      "aspect_ratio_deviation_pct": 4.166666666666674
+    },
+    {
+      "name": "1b",
+      "K": 4,
+      "L": 4,
+      "d_model": 3840,
+      "d_ff": 13056,
+      "query_heads": 30,
+      "kv_heads": 6,
+      "target_layer_ids": [
+        1,
+        31,
+        62,
+        92
+      ],
+      "trainable_parameters": 915384833,
+      "shared_frozen_target_embedding_head_parameters": 1244659712,
+      "d_model_per_layer": 960.0,
+      "ffn_ratio": 3.4,
+      "aspect_ratio_deviation_pct": -6.25
+    },
+    {
+      "name": "2b",
+      "K": 5,
+      "L": 5,
+      "d_model": 5120,
+      "d_ff": 17408,
+      "query_heads": 40,
+      "kv_heads": 8,
+      "target_layer_ids": [
+        1,
+        24,
+        46,
+        69,
+        92
+      ],
+      "trainable_parameters": 1876167169,
+      "shared_frozen_target_embedding_head_parameters": 1244659712,
+      "d_model_per_layer": 1024.0,
+      "ffn_ratio": 3.4,
+      "aspect_ratio_deviation_pct": 0.0
+    },
+    {
+      "name": "4b",
+      "K": 7,
+      "L": 7,
+      "d_model": 6400,
+      "d_ff": 21760,
+      "query_heads": 50,
+      "kv_heads": 10,
+      "target_layer_ids": [
+        1,
+        16,
+        31,
+        46,
+        62,
+        77,
+        92
+      ],
+      "trainable_parameters": 3926503681,
+      "shared_frozen_target_embedding_head_parameters": 1244659712,
+      "d_model_per_layer": 914.2857142857143,
+      "ffn_ratio": 3.4,
+      "aspect_ratio_deviation_pct": -10.71428571428571
+    },
+    {
+      "name": "8b",
+      "K": 9,
+      "L": 9,
+      "d_model": 8320,
+      "d_ff": 28288,
+      "query_heads": 65,
+      "kv_heads": 13,
+      "target_layer_ids": [
+        1,
+        12,
+        24,
+        35,
+        46,
+        58,
+        69,
+        81,
+        92
+      ],
+      "trainable_parameters": 8302654593,
+      "shared_frozen_target_embedding_head_parameters": 1244659712,
+      "d_model_per_layer": 924.4444444444445,
+      "ffn_ratio": 3.4,
+      "aspect_ratio_deviation_pct": -9.722222222222221
+    }
+  ]
+}

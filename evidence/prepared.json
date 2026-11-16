@@ -1,0 +1,50 @@
+{
+  "status": "prepared",
+  "dataset": "nvidia/OpenCodeInstruct",
+  "revision": "8f3ba5bafe4d6e8db46082cf7ae6741bc370604d",
+  "counts": {
+    "worker0.primary": 180000,
+    "worker1.primary": 180000,
+    "worker0.reserve": 20000,
+    "worker1.reserve": 20000,
+    "fresh_holdout": 5000
+  },
+  "prior_id_count": 366000,
+  "prior_id_files": [
+    "/workspace/specforge/qwen3-235b-thinking-opencode-120k-2k-20260823/data/opencode_reserve_20000.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-120k-2k-20260823/data/opencode_train_120000.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-120k-2k-20260823/data/opencode_validation_5000.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-40k-20260805/data/opencode_eval_1000.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-40k-20260805/data/opencode_train_40000.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-40k-part2-20260810/data/opencode_train_40000_part2.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-40k-part3-20260821/data/opencode_train_40000_part3.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-additional-80k-2k-20260829/data/opencode_additional_reserve_10000.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-additional-80k-2k-20260829/data/opencode_additional_reserve_extra_10000.ids",
+    "/workspace/specforge/qwen3-235b-thinking-opencode-additional-80k-2k-20260829/data/opencode_additional_train_80000.ids"
+  ],
+  "prior_prompt_hashes": 361051,
+  "train_holdout_worker_id_overlap": 0,
+  "normalized_prompt_overlap": 0,
+  "files": {
+    "worker0.primary.source.jsonl": {
+      "sha256": "3647c5c6d0dda6d7c769257ffa0e3c8c94bf3646cd8fd9aa3e3a863290c8e6ae",
+      "bytes": 410572645
+    },
+    "worker1.primary.source.jsonl": {
+      "sha256": "0564b3aa9d3ed993abd992fc65137a73b2300f7d59d1d44bceac89b2c610d897",
+      "bytes": 410226564
+    },
+    "worker0.reserve.source.jsonl": {
+      "sha256": "f39eb956c25290003f774d9ff583fc31d23edc5ef39f64be55b76f9e6dba7a9b",
+      "bytes": 45549621
+    },
+    "worker1.reserve.source.jsonl": {
+      "sha256": "bca5adcb6315f48a8c0ff55f61e2d46676aa254d15128f44bc0816398475b736",
+      "bytes": 45426490
+    },
+    "fresh_holdout.source.jsonl": {
+      "sha256": "f8ad0b7502c649b70b825faebf270aa17471bdd8eae9891f603788c8b6c2d3eb",
+      "bytes": 11548997
+    }
+  }
+}

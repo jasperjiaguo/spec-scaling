@@ -1,0 +1,118 @@
+{
+  "0p5b/bigcodebench_instruct_v0.1.4": {
+    "counts": {
+      "rows": 1140,
+      "truncated": 6,
+      "forced_thinking_stop": 877,
+      "empty_answer": 0,
+      "missing_think_close": 0,
+      "reasoning_repetition_flag": 36,
+      "answer_repetition_flag": 1,
+      "any_repetition_flag": 36,
+      "odd_code_fence": 6,
+      "no_closed_code_block": 6,
+      "complete_rows": 1134,
+      "complete_python_parse_ok": 1134,
+      "complete_python_parse_failed": 0,
+      "truncated_rows": 6,
+      "truncated_python_parse_ok": 6,
+      "truncated_python_parse_failed": 0
+    },
+    "acceptance_by_group": {
+      "truncated": 3.359212684527064,
+      "complete": 3.2597121981023376,
+      "repetitive": 3.3505364938191016,
+      "nonrepetitive": 3.2573044946106515
+    },
+    "source": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/external-coding-20260917/0p5b/bigcodebench_instruct_v0.1.4/metrics.json",
+    "code_executed": false,
+    "extraction": "Longest fenced Python/unlabelled code block, including unmatched final fence; fallback whole answer. Parsing is a heuristic, not correctness."
+  },
+  "0p5b/livecodebench_codegen_release_v6": {
+    "counts": {
+      "rows": 1055,
+      "truncated": 362,
+      "forced_thinking_stop": 925,
+      "empty_answer": 0,
+      "missing_think_close": 0,
+      "reasoning_repetition_flag": 2,
+      "answer_repetition_flag": 0,
+      "any_repetition_flag": 2,
+      "odd_code_fence": 129,
+      "no_closed_code_block": 148,
+      "complete_rows": 693,
+      "complete_python_parse_ok": 693,
+      "complete_python_parse_failed": 0,
+      "truncated_rows": 362,
+      "truncated_python_parse_ok": 255,
+      "truncated_python_parse_failed": 107
+    },
+    "acceptance_by_group": {
+      "truncated": 3.2201817328908735,
+      "complete": 3.50795702795801,
+      "repetitive": 3.5538362346872985,
+      "nonrepetitive": 3.3885190598402484
+    },
+    "source": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/external-coding-20260917/0p5b/livecodebench_codegen_release_v6/metrics.json",
+    "code_executed": false,
+    "extraction": "Longest fenced Python/unlabelled code block, including unmatched final fence; fallback whole answer. Parsing is a heuristic, not correctness."
+  },
+  "1b/bigcodebench_instruct_v0.1.4": {
+    "counts": {
+      "rows": 1140,
+      "truncated": 2,
+      "forced_thinking_stop": 878,
+      "empty_answer": 0,
+      "missing_think_close": 0,
+      "reasoning_repetition_flag": 39,
+      "answer_repetition_flag": 0,
+      "any_repetition_flag": 39,
+      "odd_code_fence": 2,
+      "no_closed_code_block": 2,
+      "complete_rows": 1138,
+      "complete_python_parse_ok": 1136,
+      "complete_python_parse_failed": 2,
+      "truncated_rows": 2,
+      "truncated_python_parse_ok": 1,
+      "truncated_python_parse_failed": 1
+    },
+    "acceptance_by_group": {
+      "truncated": 3.484968803176404,
+      "complete": 3.4420586996002225,
+      "repetitive": 3.5070516076102667,
+      "nonrepetitive": 3.43964277835675
+    },
+    "source": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/external-coding-20260917/1b/bigcodebench_instruct_v0.1.4/metrics.json",
+    "code_executed": false,
+    "extraction": "Longest fenced Python/unlabelled code block, including unmatched final fence; fallback whole answer. Parsing is a heuristic, not correctness."
+  },
+  "1b/livecodebench_codegen_release_v6": {
+    "counts": {
+      "rows": 1055,
+      "truncated": 347,
+      "forced_thinking_stop": 919,
+      "empty_answer": 0,
+      "missing_think_close": 0,
+      "reasoning_repetition_flag": 5,
+      "answer_repetition_flag": 0,
+      "any_repetition_flag": 5,
+      "odd_code_fence": 113,
+      "no_closed_code_block": 139,
+      "complete_rows": 708,
+      "complete_python_parse_ok": 707,
+      "complete_python_parse_failed": 1,
+      "truncated_rows": 347,
+      "truncated_python_parse_ok": 252,
+      "truncated_python_parse_failed": 95
+    },
+    "acceptance_by_group": {
+      "truncated": 3.3947886346120777,
+      "complete": 3.67930152699642,
+      "repetitive": 4.170860515688102,
+      "nonrepetitive": 3.5641870676295717
+    },
+    "source": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/external-coding-20260917/1b/livecodebench_codegen_release_v6/metrics.json",
+    "code_executed": false,
+    "extraction": "Longest fenced Python/unlabelled code block, including unmatched final fence; fallback whole answer. Parsing is a heuristic, not correctness."
+  }
+}

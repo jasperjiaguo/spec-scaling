@@ -1,0 +1,64 @@
+{
+  "command": [
+    "/home/user/venvs/sglang-scaling-eval-cu129/bin/python",
+    "-m",
+    "sglang.launch_server",
+    "--model-path",
+    "/models/Qwen/Qwen3-235B-A22B-Thinking-2507/ddee1c5fb2c5406e8315f8a6d47214c74349e15b",
+    "--host",
+    "127.0.0.1",
+    "--port",
+    "32000",
+    "--tp-size",
+    "8",
+    "--dtype",
+    "bfloat16",
+    "--trust-remote-code",
+    "--mem-fraction-static",
+    "0.85",
+    "--context-length",
+    "16384",
+    "--chunked-prefill-size",
+    "8192",
+    "--max-running-requests",
+    "32",
+    "--max-total-tokens",
+    "270336",
+    "--cuda-graph-max-bs",
+    "32",
+    "--disable-radix-cache",
+    "--skip-tokenizer-init",
+    "--random-seed",
+    "42",
+    "--speculative-algorithm",
+    "DSPARK",
+    "--speculative-draft-model-path",
+    "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/8b",
+    "--speculative-dspark-block-size",
+    "7"
+  ],
+  "env": {
+    "PYTHONPATH": "/home/user/dspark-synthetic-speed-20260922/sglang-python",
+    "SGLANG_RAGGED_VERIFY_MODE": "static",
+    "DSPARK_SYNTHETIC_BENCHMARK": "1"
+  },
+  "model": {
+    "name": "8b",
+    "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/8b",
+    "dummy": false,
+    "K": 9,
+    "L": 9,
+    "d_model": 8320,
+    "d_ff": 28288,
+    "native_parameters": 8302654593,
+    "padded_parameters": 8647701633,
+    "native_heads": [
+      65,
+      13
+    ],
+    "executed_heads": [
+      80,
+      16
+    ]
+  }
+}

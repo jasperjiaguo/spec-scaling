@@ -1,0 +1,56 @@
+{
+  "validated_checkpoints": 10,
+  "unique_prompts_per_checkpoint": 5000,
+  "summary_raw_mismatches": [],
+  "duplicate_checkpoint_completions": {
+    "6870": [
+      {
+        "worker": "curve-a",
+        "time": 1789859393.4621298,
+        "stage": "checkpoint_complete",
+        "step": 6870,
+        "acceptance": 3.526578803198747
+      },
+      {
+        "worker": "curve-b",
+        "time": 1789855870.239324,
+        "stage": "checkpoint_complete",
+        "step": 6870,
+        "acceptance": 3.526013646400946
+      }
+    ],
+    "48092": [
+      {
+        "worker": "curve-a",
+        "time": 1789862578.9580705,
+        "stage": "checkpoint_complete",
+        "step": 48092,
+        "acceptance": 4.493053895196033
+      },
+      {
+        "worker": "curve-c",
+        "time": 1789865390.787977,
+        "stage": "checkpoint_complete",
+        "step": 48092,
+        "acceptance": 4.491374524674367
+      }
+    ],
+    "61833": [
+      {
+        "worker": "curve-a",
+        "time": 1789865736.9776566,
+        "stage": "checkpoint_complete",
+        "step": 61833,
+        "acceptance": 4.59119896669849
+      },
+      {
+        "worker": "curve-c",
+        "time": 1789868502.2131124,
+        "stage": "checkpoint_complete",
+        "step": 61833,
+        "acceptance": 4.5923236119916675
+      }
+    ]
+  },
+  "limitation": "Duplicate jobs shared output paths: earlier full generations may have been overwritten; logs retain scalar results. Retained raw metrics revalidated."
+}

@@ -1,0 +1,31 @@
+{
+  "status": "complete",
+  "target_corpus_tokens": 1200000000,
+  "actual_corpus_tokens": 1210189978,
+  "token_difference_from_target": 10189978,
+  "rows": 549626,
+  "max_sequence_length": 4773,
+  "mean_sequence_length": 2201.842667559395,
+  "sources": [
+    {
+      "path": "/workspace/specforge/qwen3-235b-thinking-dspark-k5l5-200k-20260903/data/opencode_train_196816.qwen3-thinking-budget2k.cleaned.jsonl",
+      "rows": 196816,
+      "tokens": 434839110
+    },
+    {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker0.cleaned.jsonl",
+      "rows": 176421,
+      "tokens": 387793453
+    },
+    {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker1.cleaned.jsonl",
+      "rows": 176389,
+      "tokens": 387557415
+    }
+  ],
+  "output": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/opencode_scaling.combined.cleaned.jsonl",
+  "sha256": "70048dfd036935a9e0567fd1354142bb81b739f2b427c7201064afcf7ebaf0c6",
+  "template": "qwen3-thinking-nosystem / ThinkingParser-compatible rendering",
+  "training_launched": false,
+  "completed_at": "2026-09-11T13:35:30.823496+00:00"
+}

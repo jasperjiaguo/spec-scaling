@@ -1,0 +1,48 @@
+{
+  "requests": 256,
+  "concurrency": 32,
+  "input_tokens": 1,
+  "output_tokens_each": 8192,
+  "total_output_tokens": 2097152,
+  "elapsed_seconds": 911.7178954780102,
+  "output_tokens_per_second": 2300.2202878780517,
+  "request_latency_mean": 108.65125040944167,
+  "synthetic_tau": 2.5,
+  "observed_tau_including_bonus": 2.500008344857184,
+  "completion_tokens_per_verify": 2.5000619903676506,
+  "spec_verify_ct": 838840,
+  "correct_drafts_histogram": [
+    0,
+    419413,
+    419427,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "all_exact_token_counts": true,
+  "request_records": "/workspace/specforge/dspark-synthetic-speed-20260922/results/0p5b/tau-2.50/attempt-20260922T151550/requests.jsonl",
+  "worker": "b",
+  "model": {
+    "name": "0p5b",
+    "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/eval/fresh5k-20260916/exports/0p5b",
+    "dummy": false,
+    "K": 3,
+    "L": 3,
+    "d_model": 3200,
+    "d_ff": 10880,
+    "native_parameters": 530429057,
+    "padded_parameters": 574665857,
+    "native_heads": [
+      25,
+      5
+    ],
+    "executed_heads": [
+      40,
+      8
+    ]
+  },
+  "baseline": "/workspace/specforge/dspark-synthetic-speed-20260922/workers/b/baseline/metrics.json",
+  "speedup": 1.3904573429069242
+}

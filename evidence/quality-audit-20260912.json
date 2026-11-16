@@ -1,0 +1,171 @@
+{
+  "status": "complete",
+  "rows": 549626,
+  "sha256": "70048dfd036935a9e0567fd1354142bb81b739f2b427c7201064afcf7ebaf0c6",
+  "sha_matches_manifest": true,
+  "counts_by_component": {
+    "prior_196816": {
+      "rows": 196816,
+      "duplicate_ids": 0,
+      "forced_early_stop": 103977,
+      "reasoning_repetition_rows": 2188,
+      "answer_heuristic_repetition_rows": 68,
+      "duplicate_prompt_extra_rows": 1511,
+      "duplicate_reasoning_extra_rows": 51,
+      "duplicate_answer_extra_rows": 3,
+      "budget_(2048, 1024)": 196816,
+      "sampling_(0.6, 0.95, 20, 0.0)": 196816,
+      "finish_('stop', None)": 82247,
+      "finish_('length', 'stop')": 114515,
+      "reasoning_forced_trace_word_20gram_repeated_5plus": 563,
+      "reasoning_long_sentence_repeated_3plus": 1754,
+      "reasoning_long_paragraph_repeated_3plus": 392,
+      "answer_tokens_over_1024": 666,
+      "reasoning_word_20gram_repeated_8plus": 92,
+      "answer_heuristic_long_sentence_repeated_3plus": 61,
+      "replacement_character_answer": 14,
+      "phase2_not_stop": 41,
+      "finish_('length', 'length')": 41,
+      "no_recorded_end_stop": 13,
+      "finish_('length', None)": 13,
+      "replacement_character_reasoning": 15,
+      "answer_heuristic_long_paragraph_repeated_3plus": 9,
+      "replacement_character_prompt": 3,
+      "answer_heuristic_word_20gram_repeated_8plus": 6,
+      "odd_triple_backtick_count": 2
+    },
+    "new_worker0": {
+      "rows": 176421,
+      "duplicate_ids": 0,
+      "forced_early_stop": 91891,
+      "reasoning_repetition_rows": 0,
+      "answer_heuristic_repetition_rows": 39,
+      "duplicate_prompt_extra_rows": 0,
+      "duplicate_reasoning_extra_rows": 0,
+      "duplicate_answer_extra_rows": 2,
+      "budget_(2048, 1024)": 176421,
+      "sampling_(0.6, 0.95, 20, 0.0)": 176421,
+      "finish_('length', 'stop')": 101293,
+      "finish_('stop', None)": 75051,
+      "phase2_not_stop": 53,
+      "finish_('length', 'length')": 53,
+      "answer_tokens_over_1024": 632,
+      "odd_triple_backtick_count": 1,
+      "answer_heuristic_long_sentence_repeated_3plus": 36,
+      "answer_heuristic_long_paragraph_repeated_3plus": 8,
+      "no_recorded_end_stop": 24,
+      "finish_('length', None)": 24,
+      "replacement_character_answer": 14,
+      "replacement_character_prompt": 2,
+      "replacement_character_reasoning": 11,
+      "answer_heuristic_word_20gram_repeated_8plus": 2
+    },
+    "new_worker1": {
+      "rows": 176389,
+      "duplicate_ids": 0,
+      "forced_early_stop": 91813,
+      "reasoning_repetition_rows": 0,
+      "answer_heuristic_repetition_rows": 49,
+      "duplicate_prompt_extra_rows": 0,
+      "duplicate_reasoning_extra_rows": 0,
+      "duplicate_answer_extra_rows": 5,
+      "budget_(2048, 1024)": 176389,
+      "sampling_(0.6, 0.95, 20, 0.0)": 176389,
+      "finish_('length', 'stop')": 101341,
+      "finish_('stop', None)": 75048,
+      "answer_tokens_over_1024": 659,
+      "answer_heuristic_long_sentence_repeated_3plus": 44,
+      "answer_heuristic_long_paragraph_repeated_3plus": 13,
+      "replacement_character_answer": 11,
+      "replacement_character_reasoning": 10,
+      "replacement_character_prompt": 3,
+      "answer_heuristic_word_20gram_repeated_8plus": 2
+    }
+  },
+  "recorded_token_statistics": {
+    "prior_196816": {
+      "reasoning": {
+        "count": 196816,
+        "sum": 270140540,
+        "mean": 1372.553755792212,
+        "min": 23,
+        "max": 2088,
+        "p50": 2069,
+        "p90": 2070,
+        "p95": 2070,
+        "p99": 2070
+      },
+      "answer": {
+        "count": 196816,
+        "sum": 121425489,
+        "mean": 616.9492774977645,
+        "min": 1,
+        "max": 1844,
+        "p50": 598,
+        "p90": 815,
+        "p95": 891,
+        "p99": 997
+      }
+    },
+    "new_worker0": {
+      "reasoning": {
+        "count": 176421,
+        "sum": 240220802,
+        "mean": 1361.6338304396868,
+        "min": 27,
+        "max": 2086,
+        "p50": 2069,
+        "p90": 2070,
+        "p95": 2070,
+        "p99": 2070
+      },
+      "answer": {
+        "count": 176421,
+        "sum": 108622182,
+        "mean": 615.6987093373237,
+        "min": 1,
+        "max": 1619,
+        "p50": 596,
+        "p90": 811,
+        "p95": 889,
+        "p99": 998
+      }
+    },
+    "new_worker1": {
+      "reasoning": {
+        "count": 176389,
+        "sum": 239916932,
+        "mean": 1360.1581277744076,
+        "min": 22,
+        "max": 2079,
+        "p50": 2069,
+        "p90": 2070,
+        "p95": 2070,
+        "p99": 2070
+      },
+      "answer": {
+        "count": 176389,
+        "sum": 108694651,
+        "mean": 616.2212552936975,
+        "min": 1,
+        "max": 1731,
+        "p50": 596,
+        "p90": 813,
+        "p95": 891,
+        "p99": 999
+      }
+    }
+  },
+  "distinct_hashes": {
+    "normalized_prompts": 548115,
+    "normalized_reasoning": 549575,
+    "normalized_answers": 549616
+  },
+  "limitations": [
+    "Token statistics use per-row generation metadata, not a new tokenizer pass.",
+    "Answer repetition and formatting are heuristics; repeated code is often legitimate.",
+    "No generated code executed; correctness and semantic near-duplicates not established.",
+    "Reasoning counts include the injected early-stop bridge when applicable."
+  ],
+  "elapsed_seconds": 88.88896370399743
+}

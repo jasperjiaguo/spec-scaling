@@ -1,0 +1,48 @@
+{
+  "requests": 256,
+  "concurrency": 32,
+  "input_tokens": 1,
+  "output_tokens_each": 8192,
+  "total_output_tokens": 2097152,
+  "elapsed_seconds": 612.1513244269881,
+  "output_tokens_per_second": 3425.8718658545176,
+  "request_latency_mean": 76.48679867692681,
+  "synthetic_tau": 3.75,
+  "observed_tau_including_bonus": 3.7499977650594762,
+  "completion_tokens_per_verify": 3.749607991432132,
+  "spec_verify_ct": 559299,
+  "correct_drafts_histogram": [
+    0,
+    0,
+    139826,
+    419473,
+    0,
+    0,
+    0,
+    0
+  ],
+  "all_exact_token_counts": true,
+  "request_records": "/workspace/specforge/dspark-synthetic-speed-20260922/results/0p125b/tau-3.75/attempt-20260923T013025/requests.jsonl",
+  "worker": "b",
+  "model": {
+    "name": "0p125b",
+    "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/eval/final-three-datasets/exports/0p125b",
+    "dummy": false,
+    "K": 1,
+    "L": 1,
+    "d_model": 1280,
+    "d_ff": 4352,
+    "native_parameters": 114170625,
+    "padded_parameters": 125967105,
+    "native_heads": [
+      10,
+      2
+    ],
+    "executed_heads": [
+      40,
+      8
+    ]
+  },
+  "baseline": "/workspace/specforge/dspark-synthetic-speed-20260922/workers/b/baseline/metrics.json",
+  "speedup": 2.0709010857955716
+}

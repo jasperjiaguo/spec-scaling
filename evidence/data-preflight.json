@@ -1,0 +1,7 @@
+{
+  "rows": 5000,
+  "validation_ids_sha256": "f65949dcaac72ea8fd132e7b1fe40047fa67d9b67f63d8e9f9114a4beec8ffc7",
+  "max_prompt_tokens": 1114,
+  "mean_prompt_tokens": 223.1334,
+  "prompt_truncation": false
+}

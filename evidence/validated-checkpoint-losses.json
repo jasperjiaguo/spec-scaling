@@ -1,0 +1,611 @@
+{
+  "scope": "18 distinct validated trained checkpoints in the proportional scaling family; older unrelated campaigns excluded",
+  "definition": "Training objective, not held-out loss or perplexity. Window = mean of 50 logged minibatch losses every 20 steps in (checkpoint_step-1000,checkpoint_step]. Latest minibatch and window are different quantities.",
+  "untrained_synthetic_models": {
+    "16b": null,
+    "32b": null
+  },
+  "validation_source_sha256": {
+    "dspark-comparison-20260920/comparison.json": "1a22b8b9cb34ac05d0df760038365e1596e4e49b2571000208e52da4661767c1",
+    "dspark-comparison-20260920/evidence/stable_curve.json": "da8574c13b14bb1c960050419d5a775d84acaddb225c43b1fe2eb5ebe4c26dea"
+  },
+  "checkpoints": [
+    {
+      "model": "0p125b",
+      "schedule": "Cosine",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/0p125b/stable/step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 1.850772500038147,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 8.620428930887044e-13,
+      "window_loss": 1.7257190608978272,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 2.066686793726584,
+      "bigcodebench_acceptance": 1.721123967039357,
+      "livecodebench_acceptance": 1.7209674247647533,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/0p125b-stable.jsonl",
+        "sha256": "ff6d82e303327ede83ad6a2f08c13a5e493c5805b810b7d9d6776e969db95445",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/0p125b-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    },
+    {
+      "model": "0p25b",
+      "schedule": "Cosine",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/0p25b/stable/step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 1.1577847003936768,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 8.620428930887044e-13,
+      "window_loss": 0.9986918580532074,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 3.541189092428863,
+      "bigcodebench_acceptance": 2.6515768621236133,
+      "livecodebench_acceptance": 2.7597623023585958,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/0p25b-stable.jsonl",
+        "sha256": "bb8727cd254069f94fafe26a0be84946ffd63ad8ee5f62520a8341f1e4fc2071",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/0p25b-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    },
+    {
+      "model": "0p5b",
+      "schedule": "Cosine",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-proportional-1p2b-20260912/checkpoints/0p5b/dspark-proportional-0p5b-step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 0.8870078921318054,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 4.848991266685069e-13,
+      "window_loss": 0.7761833512783051,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.225959343906284,
+      "bigcodebench_acceptance": 3.2604679879673686,
+      "livecodebench_acceptance": 3.3888264218705424,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/0p5b-loss-history.csv",
+        "sha256": "afee3ffa6c69b86ae20af35e63425ec43276424db9067a88b44373e8d23930eb",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/attempts/0p5b-migrate-fa9c-20260916/previous-pod.training.log",
+            "min_step": 20,
+            "max_step": 19000,
+            "points": 950
+          },
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/logs/0p5b.training.log",
+            "min_step": 19020,
+            "max_step": 68700,
+            "points": 2485
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    },
+    {
+      "model": "1b",
+      "schedule": "Cosine",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-proportional-1p2b-20260912/checkpoints/1b/dspark-proportional-1b-step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 0.8140155076980591,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 4.848991266685069e-13,
+      "window_loss": 0.7167372536659241,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.438683624597683,
+      "bigcodebench_acceptance": 3.4421694792148685,
+      "livecodebench_acceptance": 3.5666495597382766,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/1b-loss-history.csv",
+        "sha256": "79cade1419cfd2b48132df98bec07cdcd47e34f0e74c786c5b0740bc266777bc",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/logs/1b.training.log",
+            "min_step": 20,
+            "max_step": 68700,
+            "points": 3435
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    },
+    {
+      "model": "2b",
+      "schedule": "Cosine",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-proportional-1p2b-20260912/checkpoints/2b/dspark-proportional-2b-step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 0.7704161405563354,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 4.848991266685069e-13,
+      "window_loss": 0.6746046304702759,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.581317164823187,
+      "bigcodebench_acceptance": 3.5780202302654174,
+      "livecodebench_acceptance": 3.715395419045744,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/2b-loss-history.csv",
+        "sha256": "ad7c70da92f34a557dc79a8895f777838c3cdeec1e3c96a9fe48158765c0d910",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/logs/2b.training.log",
+            "min_step": 20,
+            "max_step": 68700,
+            "points": 3435
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    },
+    {
+      "model": "4b",
+      "schedule": "Cosine",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-proportional-1p2b-20260912/checkpoints/4b/dspark-proportional-4b-step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 0.7147077918052673,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 4.848991266685069e-13,
+      "window_loss": 0.6295787113904953,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.764729918806792,
+      "bigcodebench_acceptance": 3.7704842223310733,
+      "livecodebench_acceptance": 3.8900074827648816,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/4b-loss-history.csv",
+        "sha256": "8549320677a0ed16e4b9273f9121c6b9130194eb7a9422ec94f5d180d481288a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/attempts/capture64-4b-20260914/original.training.log",
+            "min_step": 20,
+            "max_step": 47000,
+            "points": 2350
+          },
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/logs/4b.training.log",
+            "min_step": 47020,
+            "max_step": 68700,
+            "points": 1085
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    },
+    {
+      "model": "8b",
+      "schedule": "Cosine",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-proportional-1p2b-20260912/checkpoints/8b/dspark-proportional-8b-step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 0.6889932155609131,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 4.848991266685069e-13,
+      "window_loss": 0.6079181110858918,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.853702438793878,
+      "bigcodebench_acceptance": 3.8307474859064548,
+      "livecodebench_acceptance": 3.987729897084459,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/8b-loss-history.csv",
+        "sha256": "5d8f63c9f0564730ed58b854f63357bd051f6b15e6be8f08e42362aba94c8dff",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/attempts/capture96-8b-20260914/original.training.log",
+            "min_step": 20,
+            "max_step": 42000,
+            "points": 2100
+          },
+          {
+            "path": "/workspace/specforge/dspark-proportional-1p2b-20260912/logs/8b.training.log",
+            "min_step": 42020,
+            "max_step": 68700,
+            "points": 1335
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 6870,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step6870",
+      "last_logged_step": 6860,
+      "last_logged_loss": 1.0521458387374878,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 1.0787635731697083,
+      "window_start_exclusive": 5870,
+      "window_end_inclusive": 6870,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 3.526578803198747,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 13741,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step13741",
+      "last_logged_step": 13740,
+      "last_logged_loss": 1.0272246599197388,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.9105790519714355,
+      "window_start_exclusive": 12741,
+      "window_end_inclusive": 13741,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 3.9255958852039123,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 20611,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step20611",
+      "last_logged_step": 20600,
+      "last_logged_loss": 0.9358039498329163,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.8759604835510254,
+      "window_start_exclusive": 19611,
+      "window_end_inclusive": 20611,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.122497038125372,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 27481,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step27481",
+      "last_logged_step": 27480,
+      "last_logged_loss": 0.8132572770118713,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.7980921185016632,
+      "window_start_exclusive": 26481,
+      "window_end_inclusive": 27481,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.256900686191061,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 34352,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step34352",
+      "last_logged_step": 34340,
+      "last_logged_loss": 0.8809363842010498,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.7644042003154755,
+      "window_start_exclusive": 33352,
+      "window_end_inclusive": 34352,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.350602871060468,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 41222,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step41222",
+      "last_logged_step": 41220,
+      "last_logged_loss": 0.6767511367797852,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.7587710392475128,
+      "window_start_exclusive": 40222,
+      "window_end_inclusive": 41222,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.4186460180774025,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 48092,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step48092",
+      "last_logged_step": 48080,
+      "last_logged_loss": 0.740050733089447,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.709577442407608,
+      "window_start_exclusive": 47092,
+      "window_end_inclusive": 48092,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.491374524674367,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 54962,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step54962",
+      "last_logged_step": 54960,
+      "last_logged_loss": 0.6287792921066284,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.7400657165050507,
+      "window_start_exclusive": 53962,
+      "window_end_inclusive": 54962,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.5468996342220995,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 61833,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step61833",
+      "last_logged_step": 61820,
+      "last_logged_loss": 0.7804954051971436,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.6982387566566467,
+      "window_start_exclusive": 60833,
+      "window_end_inclusive": 61833,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.5923236119916675,
+      "bigcodebench_acceptance": null,
+      "livecodebench_acceptance": null,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-stable",
+      "schedule": "WSD stable",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/stable/step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 0.752374529838562,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 0.0001,
+      "window_loss": 0.6687085783481598,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.639877958320317,
+      "bigcodebench_acceptance": 3.7130666523521807,
+      "livecodebench_acceptance": 3.8498282155748496,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-stable.jsonl",
+        "sha256": "ad56f59c064e31c18ab6389af9733d362b87c96e40237c634c7c1b0359ee462a",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/logs/4b-wsd-stable.jsonl",
+            "through_step": 6000,
+            "local_evidence": "evidence/training-loss-sources/4b-wsd-original-stable.jsonl",
+            "sha256": "87c896d5d675aead726bda7934a5cfd632329a91ed8960cf727bb9248e140d13"
+          },
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-stable.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/evidence/stable_curve.json"
+    },
+    {
+      "model": "4b-wsd-cooldown",
+      "schedule": "WSD cooldown",
+      "checkpoint_step": 68703,
+      "source_checkpoint": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/checkpoints/4b-wsd/cooldown/step68703",
+      "last_logged_step": 68700,
+      "last_logged_loss": 0.7015603184700012,
+      "checkpoint_step_loss": null,
+      "last_logged_lr": 8.36461856557058e-11,
+      "window_loss": 0.620593073964119,
+      "window_start_exclusive": 67703,
+      "window_end_inclusive": 68703,
+      "window_logged_samples": 50,
+      "holdout_acceptance": 4.801573333798752,
+      "bigcodebench_acceptance": 3.820561479113999,
+      "livecodebench_acceptance": 3.949991313314727,
+      "training_loss_provenance": {
+        "local_evidence": "evidence/training-loss-sources/4b-wsd-cooldown.jsonl",
+        "sha256": "9fbd45ebc73c8f438339c8346c6a6ab29626fc2f7aa70f775aa3729d6418ecec",
+        "source_logs": [
+          {
+            "path": "/workspace/specforge/dspark-shared-prefill-wsd-20260918/dual-prefill-224/logs/4b-wsd-cooldown.jsonl"
+          }
+        ],
+        "duplicate_logged_steps": 0
+      },
+      "validation_summary": "dspark-comparison-20260920/comparison.json"
+    }
+  ]
+}

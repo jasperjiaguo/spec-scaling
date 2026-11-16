@@ -1,0 +1,32 @@
+{
+  "source_nfs_directory": "/workspace/specforge/dspark-wsd-1b-16b-20260923/eval/holdout-curve-20260925/jobs/1b-stable-step12153",
+  "published_at": "2026-09-26T08:23:08.852024+00:00",
+  "rows": 5000,
+  "raw_metrics_sha256": "12fb1c7da9dfbc3b08bad2899f18cf8be0dec0f2ecd7b107ae8c6acca28cf26c",
+  "files": {
+    "metrics-summary.json": {
+      "bytes": 1673,
+      "sha256": "7466566eadb6ed9525e4040d642e937a59a122de258b612446ab61c382ba2564"
+    },
+    "metrics-command.json": {
+      "bytes": 944,
+      "sha256": "3f56d4dc31f6dbb922e258653fa24c3ff0d605bc128fe957a05e9f9e1e5e9b29"
+    },
+    "metrics.json.gz": {
+      "bytes": 12431908,
+      "sha256": "55a4770399c12ff3e6438f6028ede72868b381de08479c935bde095bfb494b5c"
+    },
+    "server-command.json": {
+      "bytes": 836,
+      "sha256": "f5f3b9ccf990f4b8f1a22ba06571a4c29c463e2b69c71baa23e017d88185b60a"
+    },
+    "COMPLETED.json": {
+      "bytes": 182,
+      "sha256": "d73fe605f2422633b351509d8572f3780e7411c8011c76690a58d8ff02809339"
+    },
+    "result.json": {
+      "bytes": 2164,
+      "sha256": "b92501d34bcc2567ce69f98b100e52a6910e7813c0be431e46c9e4d027d166fd"
+    }
+  }
+}

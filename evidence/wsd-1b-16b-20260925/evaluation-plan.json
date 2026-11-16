@@ -1,0 +1,242 @@
+{
+  "executable_queue": false,
+  "execution_status": "paused_by_user_preservation_only",
+  "execution_note": "Historical validation scope only. User requested no GPU repair, pod changes or evaluation launch during preservation.",
+  "jobs": [
+    {
+      "priority": 1,
+      "size": "16b",
+      "branch": "stable",
+      "step": 6870,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step6870",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 2,
+      "size": "16b",
+      "branch": "stable",
+      "step": 8718,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step8718",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 3,
+      "size": "16b",
+      "branch": "stable",
+      "step": 9577,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step9577",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 4,
+      "size": "16b",
+      "branch": "stable",
+      "step": 10436,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step10436",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 5,
+      "size": "16b",
+      "branch": "stable",
+      "step": 11294,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step11294",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 6,
+      "size": "16b",
+      "branch": "stable",
+      "step": 12153,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step12153",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 7,
+      "size": "16b",
+      "branch": "stable",
+      "step": 13012,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step13012",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 8,
+      "size": "16b",
+      "branch": "stable",
+      "step": 13871,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step13871",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 9,
+      "size": "16b",
+      "branch": "stable",
+      "step": 14730,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step14730",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 10,
+      "size": "16b",
+      "branch": "stable",
+      "step": 15588,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/16b/stable/step15588",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 11,
+      "size": "1b",
+      "branch": "stable",
+      "step": 6870,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step6870",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 12,
+      "size": "1b",
+      "branch": "stable",
+      "step": 8718,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step8718",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 13,
+      "size": "1b",
+      "branch": "stable",
+      "step": 9577,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step9577",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 14,
+      "size": "1b",
+      "branch": "stable",
+      "step": 10436,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step10436",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 15,
+      "size": "1b",
+      "branch": "stable",
+      "step": 11294,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step11294",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 16,
+      "size": "1b",
+      "branch": "stable",
+      "step": 12153,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step12153",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 17,
+      "size": "1b",
+      "branch": "stable",
+      "step": 13012,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step13012",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 18,
+      "size": "1b",
+      "branch": "stable",
+      "step": 13871,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step13871",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 19,
+      "size": "1b",
+      "branch": "stable",
+      "step": 14730,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step14730",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    },
+    {
+      "priority": 20,
+      "size": "1b",
+      "branch": "stable",
+      "step": 15588,
+      "source_checkpoint": "/workspace/specforge/dspark-wsd-1b-16b-20260923/checkpoints/1b/stable/step15588",
+      "dataset": "fresh_holdout.source.jsonl",
+      "expected_rows": 5000,
+      "concurrency": 32,
+      "status": "planned_not_launched"
+    }
+  ],
+  "baseline_required": true,
+  "blocker": "All three current pods: NVML initialization failure; fresh PyTorch reports CUDA unavailable and device_count=0.",
+  "contract": {
+    "thinking_budget": 2048,
+    "answer_budget": 1024,
+    "temperature": 0.6,
+    "top_p": 0.95,
+    "top_k": 20,
+    "min_p": 0,
+    "full_prompts": true,
+    "block_size": 7,
+    "template": "qwen3-thinking-nosystem",
+    "synthetic_acceptance": false
+  },
+  "weights_published": false
+}

@@ -1,0 +1,26 @@
+{
+  "requests": 256,
+  "concurrency": 32,
+  "input_tokens": 1,
+  "output_tokens_each": 8192,
+  "total_output_tokens": 2097152,
+  "elapsed_seconds": 1267.704842427047,
+  "output_tokens_per_second": 1654.2904387625115,
+  "request_latency_mean": 158.43365252321018,
+  "synthetic_tau": null,
+  "observed_tau_including_bonus": null,
+  "completion_tokens_per_verify": null,
+  "spec_verify_ct": 0,
+  "correct_drafts_histogram": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "all_exact_token_counts": true,
+  "request_records": "/workspace/specforge/dspark-synthetic-speed-20260922/workers/b/baseline/attempt-20260922T052524/requests.jsonl"
+}

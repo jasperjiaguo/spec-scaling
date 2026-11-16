@@ -1,0 +1,40 @@
+[
+  {
+    "model": "16b",
+    "step": 15588,
+    "dataset": "bigcodebench_instruct_v0.1.4",
+    "rows": 1140,
+    "acceptance_including_bonus": 3.6496602527863344,
+    "output_tokens_per_s": 2663.5714349935893,
+    "position_prefix_survival": [
+      0.7808407314548447,
+      0.5895142687565674,
+      0.43456636228531875,
+      0.3193733429591129,
+      0.23407400679337825,
+      0.17081321655028556,
+      0.12250318292791784
+    ],
+    "correctness_graded": false,
+    "evidence": "evidence/wsd-validation-20260925/external/external-16b-stable-step15588-bigcodebench_instruct_v0.1.4/result.json"
+  },
+  {
+    "model": "16b",
+    "step": 15588,
+    "dataset": "livecodebench_codegen_release_v6",
+    "rows": 1055,
+    "acceptance_including_bonus": 3.772794439287734,
+    "output_tokens_per_s": 2653.248093366867,
+    "position_prefix_survival": [
+      0.799869837510269,
+      0.6089430699143275,
+      0.4557487543876495,
+      0.3383291190560019,
+      0.2512576150391021,
+      0.18494142687962103,
+      0.13537965837680974
+    ],
+    "correctness_graded": false,
+    "evidence": "evidence/wsd-validation-20260925/external/external-16b-stable-step15588-livecodebench_codegen_release_v6/result.json"
+  }
+]

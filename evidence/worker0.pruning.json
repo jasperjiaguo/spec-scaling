@@ -1,0 +1,48 @@
+{
+  "status": "complete",
+  "policy": {
+    "prompt_duplicate": "normalized prompt duplicates against existing traces or earlier new rows",
+    "duplicate": "normalized reasoning duplicates against existing traces or earlier new rows",
+    "internal": [
+      "20-word shingle repeated at least 8 times",
+      "forced-stop trace with a 20-word shingle repeated at least 5 times",
+      "normalized long sentence or paragraph repeated at least 3 times"
+    ]
+  },
+  "existing_trace_rows_indexed": 196816,
+  "raw_rows": 180000,
+  "kept_rows": 176421,
+  "removed_rows": 3579,
+  "removed_rate_pct": 1.9883333333333333,
+  "reason_counts": {
+    "normalized_reasoning_duplicate": 199,
+    "long_sentence_repeated_3plus": 2724,
+    "long_paragraph_repeated_3plus": 560,
+    "forced_trace_word_20gram_repeated_5plus": 857,
+    "word_20gram_repeated_8plus": 112
+  },
+  "implementation": {
+    "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/scripts/prune_repetitive_traces.py",
+    "sha256": "941943338be12c545ea7bbd9bdcc6730e966f4d54f479861f47479f78cb5acde"
+  },
+  "existing_traces": [
+    {
+      "path": "/workspace/specforge/qwen3-235b-thinking-dspark-k5l5-200k-20260903/data/opencode_train_196816.qwen3-thinking-budget2k.cleaned.jsonl",
+      "sha256": "fa16c188028e1d570d6eba86cb916125b6d0e41a5b62637a8219ea85afb29798"
+    }
+  ],
+  "files": {
+    "input": {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker0.raw.jsonl",
+      "sha256": "fa6fc764098be4737db80b4fd90cedcfe823cca62d7512a8e0c4122efd7f4b03"
+    },
+    "output": {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker0.cleaned.jsonl",
+      "sha256": "e4719d9c74d424449b94413d9f99f314b197064bf09b9e7b7bfadc64c00ebbbd"
+    },
+    "removed": {
+      "path": "/workspace/specforge/qwen3-235b-thinking-scaling-1p2b-20260910/data/worker0.removed.jsonl",
+      "sha256": "64f743000324d9f18000bd8a9bba71ca9d39332ff80d7adb54f93621902a2b63"
+    }
+  }
+}
